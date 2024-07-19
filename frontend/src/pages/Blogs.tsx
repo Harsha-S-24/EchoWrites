@@ -19,16 +19,17 @@ export const Blogs = ()=>{
         </div>
         </div> 
     }
-    const getCurrentFormattedDate=()=>{
-        const options={year:'numeric',month:'long',day:'numeric'};
-        return new Date().toLocaleDateString(undefined,options);
-    }
-    const currentDate=getCurrentFormattedDate();
+    //fix this
+    // const getCurrentFormattedDate=()=>{
+    //     const options={year:'numeric',month:'long',day:'numeric'};
+    //     return new Date().toLocaleDateString(undefined,options);
+    // }
+    // const currentDate=getCurrentFormattedDate();
     return <div>
         <AppBar/>
         <div className="flex justify-center">
             <div className="">
-            {blogs.map(blog=><BlogCard id={blog.id} authorName={blog.author.name || "Anonymous"} title={blog.title} content={blog.content} publishedDate={currentDate} />)}
+            {blogs.map(blog=><BlogCard id={blog.id} authorName={blog.author.name || "Anonymous"} title={blog.title} content={blog.content} publishedDate={"12-01-2024"} />)}
             
             {/* <BlogCard authorName={"Harsha"} title={"How an ugly single page website makes $5000 a month without affliate marketing"} content={'How an ugly single page website makes $5000 a month without affliate marketing'} publishedDate={'12th Feb 2024'} />
             <BlogCard authorName={"Harsha"} title={"How an ugly single page website makes $5000 a month without affliate marketing"} content={'How an ugly single page website makes $5000 a month without affliate marketing'} publishedDate={'12th Feb 2024'} /> */}
