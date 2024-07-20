@@ -11,7 +11,7 @@ export const Blog = () =>{
     });
     if(loading ||!blog){
         return <div>
-            <AppBar />
+            <AppBar/>
         
             <div className="h-screen flex flex-col justify-center">
                 
