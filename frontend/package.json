@@ -13,6 +13,8 @@
     "@editorjs/editorjs": "^2.30.2",
     "@the_cruiser24/echowrites-common": "^1.0.1",
     "axios": "^1.7.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1"

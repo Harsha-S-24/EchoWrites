@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { verify,sign } from "hono/jwt";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from "@prisma/extension-accelerate";
+import { bodyLimit } from "hono/body-limit";
 export const blogRouter=new Hono<{
     Bindings:{
         DATABASE_URL:string;
@@ -81,7 +82,8 @@ blogRouter.use('/*',async (c,next)=>{
                     select:{
                         name:true
                     }
-                }
+                },
+                authorId:true
             }
         })
         if(blogs.length===0){
@@ -182,3 +184,22 @@ blogRouter.use('/*',async (c,next)=>{
         id:blog.id
     })
   })
+blogRouter.delete('/:id',async (c)=>{
+    const id=c.req.param("id")
+    const prisma=new PrismaClient({
+        datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate());
+    const success=await prisma.blog.delete({
+        where:{
+            id:Number(id)
+        }
+    })
+    if(!success){
+        return c.json({
+            message:"Couldnt delete the blog"
+        })
+    }
+    return c.json({
+        message:"Successfully deleted the blog"
+    })
+})
