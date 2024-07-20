@@ -58,7 +58,7 @@ return <div>
                 {blog.author.name || "Anonymous"}
                     </div>
                     <div className="pt-2 text-slate-500" >
-                        {blog.phrase || "Good Reader"}
+                        {blog.phrase || "Good Read"}
                     </div>
                 </div>
                 </div>

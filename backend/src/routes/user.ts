@@ -9,7 +9,9 @@ export const userRouter = new Hono<{
         JWT_SECRET:string
     }
 }>();
-
+function capitalizeFirstLetter(name:string){
+  return name.split(' ').map(word=>word.charAt(0).toUpperCase()+word.slice(1).toLowerCase()).join(' ');
+}
 
 userRouter.post('/signup', async (c) => {
     try {
@@ -31,9 +33,20 @@ userRouter.post('/signup', async (c) => {
           message:"Wrong Inputs"
         })
       }
+      const user = await prisma.user.findUnique({
+        where: {
+            email: body.email.toLowerCase()
+        }
+    });
+
+    if (user) {
+        c.status(403);
+        return c.json({ error: "Email Already Exists. Please use a different Email" });
+    }
       const user1 = await prisma.user.create({
         data: {
-          email: body.email,
+          name:capitalizeFirstLetter(body.name),
+          email: body.email.toLowerCase(),
           password: body.password,
         },
       });
@@ -65,7 +78,7 @@ userRouter.post('/signin', async (c) => {
       }
       const user = await prisma.user.findUnique({
           where: {
-              email: body.email,
+              email: body.email.toLowerCase(),
         password:body.password
           }
       });
