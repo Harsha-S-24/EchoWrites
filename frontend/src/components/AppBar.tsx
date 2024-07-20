@@ -20,6 +20,17 @@ export const AppBar = () => {
                 </div>
             </Link>
             <div className="flex items-center justify-center">
+            <div>
+                <Link to={'/myblogs'}>
+
+                    <button
+                        type="button"
+                        className="mr-4 text-white bg-orange-400 hover:bg-orange-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2"
+                        >
+                        My Blogs
+                    </button>
+                </Link>
+                </div>
                 <div>
                 <Link to={'/publish'}>
 
@@ -30,7 +41,7 @@ export const AppBar = () => {
                         Publish
                     </button>
                 </Link>
-                        </div>
+                </div>
                 <div className="flex items-center justify-center">
                     <div>
 

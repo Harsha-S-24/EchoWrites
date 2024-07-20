@@ -24,7 +24,7 @@ blogRouter.use('/*',async (c,next)=>{
         //extract the user id and pass it down to the route handlers
      //@ts-ignore
        c.set("userId",user.id);
-      await next()
+      await next();
     }else {
       c.status(403)
       return c.json({
@@ -49,6 +49,8 @@ blogRouter.use('/*',async (c,next)=>{
                 content:true,
                 title:true,
                 id:true,
+                publishedAt:true,
+                phrase:true,
                 author:{
                     select:{
                         name:true
@@ -60,7 +62,38 @@ blogRouter.use('/*',async (c,next)=>{
             blogs
         })
       })
-  
+      blogRouter.get('/myBlogs',async (c)=>{
+        const prisma=new PrismaClient({
+            datasourceUrl:c.env.DATABASE_URL
+        }).$extends(withAccelerate());
+        const authorId=c.get("userId");
+        const blogs=await prisma.blog.findMany({
+           where:{
+            authorId:Number(authorId)
+           },
+            select:{
+                content:true,
+                title:true,
+                id:true,
+                publishedAt:true,
+                phrase:true,
+                author:{
+                    select:{
+                        name:true
+                    }
+                }
+            }
+        })
+        if(blogs.length===0){
+            return c.json({
+                message:"You dont have any blogs"
+            })
+        }
+        return c.json({
+            blogs
+        })
+        
+    })
   blogRouter.get('/:id',async (c) => {
      const id=c.req.param("id")
     //  const userId=c.get("userId");
@@ -76,11 +109,14 @@ blogRouter.use('/*',async (c,next)=>{
                 id:true,
                 title:true,
                 content:true,
+                publishedAt:true,
                 author:{
                     select:{
                         name:true
                     }
-                }
+                },
+                phrase:true
+                
             }
         })
         return c.json({
@@ -109,7 +145,9 @@ blogRouter.use('/*',async (c,next)=>{
                 data:{
                     title:body.title,
                     content:body.content,
-                    authorId:Number(authorId)
+                    authorId:Number(authorId),
+                    published:true,
+                    phrase:body.phrase
                 }
             })
             return c.json({
