@@ -9,7 +9,8 @@ export interface Blog{
             "phrase":string,
             "author": {
                 "name": string
-            }
+            },
+            "authorId":Number
 }
 export const useMyBlogs = () => {
     const [loading, setLoading] = useState<boolean>(true);
