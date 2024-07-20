@@ -9,7 +9,7 @@ export const AppBar = () => {
         // Example: clear the token from local storage
         localStorage.removeItem("token");
         // Redirect to login or home page after logout
-        navigate('/signin')
+        navigate('/signin',{replace:true})
     };
 
     return (
